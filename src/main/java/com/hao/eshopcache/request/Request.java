@@ -1,4 +1,8 @@
 package com.hao.eshopcache.request;
 
-public class Request {
+/**
+ * 请求接口
+ */
+public interface Request {
+    void process();
 }
