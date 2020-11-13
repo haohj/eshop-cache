@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hao.eshopcache.dao.RedisDAO;
 import com.hao.eshopcache.mapper.UserMapper;
 import com.hao.eshopcache.model.User;
-import com.hao.eshopcache.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
