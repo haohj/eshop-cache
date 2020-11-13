@@ -2,7 +2,9 @@ package com.hao.eshopcache.request;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 请求内存队列
@@ -11,7 +13,12 @@ public class RequestQueue {
     /**
      * 内存队列
      */
-    private List<ArrayBlockingQueue<Request>> queues = new ArrayList<ArrayBlockingQueue<Request>>();
+    private List<ArrayBlockingQueue<Request>> queues =
+            new ArrayList<ArrayBlockingQueue<Request>>();
+    /**
+     * 标识位map
+     */
+    private Map<Integer, Boolean> flagMap = new ConcurrentHashMap<Integer, Boolean>();
 
     /**
      * 单例有很多种方式去实现：我采取绝对线程安全的一种方式
@@ -69,5 +76,9 @@ public class RequestQueue {
      */
     public ArrayBlockingQueue<Request> getQueue(int index) {
         return queues.get(index);
+    }
+
+    public Map<Integer, Boolean> getFlagMap() {
+        return flagMap;
     }
 }
