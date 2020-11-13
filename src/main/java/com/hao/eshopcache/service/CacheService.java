@@ -1,4 +1,7 @@
 package com.hao.eshopcache.service;
 
-public interface CacheService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class CacheService {
 }

@@ -1,11 +1,11 @@
 package com.hao.eshopcache.service;
 
 import com.hao.eshopcache.request.Request;
+import org.springframework.stereotype.Service;
 
-/**
- * 请求异步执行的service
- *
- */
-public interface RequestAsyncProcessService {
-    void process(Request request);
+@Service
+public class RequestAsyncProcessService {
+    public void process(Request request) {
+
+    }
 }
