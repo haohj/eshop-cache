@@ -15,6 +15,7 @@ public class ProductInventoryService {
 
     @Autowired
     ProductInventoryMapper mapper;
+
     @Autowired
     RedisDAO redisDAO;
 
