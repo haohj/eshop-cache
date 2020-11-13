@@ -14,25 +14,31 @@ import org.springframework.stereotype.Service;
 public class ProductInventoryService {
 
     @Autowired
-    ProductInventoryMapper mapper;
-
+    private ProductInventoryMapper productInventoryMapper;
     @Autowired
-    RedisDAO redisDAO;
+    private RedisDAO redisDAO;
+
+    public void updateProductInventory(ProductInventory productInventory) {
+        productInventoryMapper.updateProductInventory(productInventory);
+    }
+
+    public void removeProductInventoryCache(ProductInventory productInventory) {
+        String key = "product:inventory:" + productInventory.getProductId();
+        redisDAO.delete(key);
+    }
 
     /**
      * 根据商品id查询商品库存
-     *
      * @param productId 商品id
      * @return 商品库存
      */
     public ProductInventory findProductInventory(Integer productId) {
-        return mapper.findProductInventory(productId);
+        return productInventoryMapper.findProductInventory(productId);
     }
 
     /**
-     * 设置商品库存信息到缓存中
-     *
-     * @param productInventory
+     * 设置商品库存的缓存
+     * @param productInventory 商品库存
      */
     public void setProductInventoryCache(ProductInventory productInventory) {
         String key = "product:inventory:" + productInventory.getProductId();
@@ -40,21 +46,25 @@ public class ProductInventoryService {
     }
 
     /**
-     * 移除库存缓存
-     *
-     * @param productInventory
+     * 获取商品库存的缓存
+     * @param productId
+     * @return
      */
-    public void removeProductInventoryCache(ProductInventory productInventory) {
-        String key = "product:inventory:" + productInventory.getProductId();
-        redisDAO.delete(key);
-    }
+    public ProductInventory getProductInventoryCache(Integer productId) {
+        Long inventoryCnt = 0L;
 
-    /**
-     * 更新商品库存信息
-     *
-     * @param productInventory
-     */
-    public void updateProductInventory(ProductInventory productInventory) {
-        mapper.updateProductInventory(productInventory);
+        String key = "product:inventory:" + productId;
+        String result = redisDAO.get(key);
+
+        if(result != null && !"".equals(result)) {
+            try {
+                inventoryCnt = Long.valueOf(result);
+                return new ProductInventory(productId, inventoryCnt);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 }

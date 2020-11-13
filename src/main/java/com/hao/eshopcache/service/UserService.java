@@ -27,12 +27,12 @@ public class UserService {
     public User getCachedUserInfo() {
         redisDAO.set("cached_user_lisi", "{\"name\": \"lisi\", \"age\":28}");
 
-        String userJson = redisDAO.get("cached_user_lisi");
-        JSONObject userJsonObject = JSON.parseObject(userJson);
+        String userJSON = redisDAO.get("cached_user_lisi");
+        JSONObject userJSONObject = JSONObject.parseObject(userJSON);
 
         User user = new User();
-        user.setName(userJsonObject.getString("name"));
-        user.setAge(userJsonObject.getInteger("age"));
+        user.setName(userJSONObject.getString("name"));
+        user.setAge(userJSONObject.getInteger("age"));
 
         return user;
     }

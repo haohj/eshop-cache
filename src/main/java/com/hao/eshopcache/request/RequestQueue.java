@@ -13,22 +13,61 @@ public class RequestQueue {
      */
     private List<ArrayBlockingQueue<Request>> queues = new ArrayList<ArrayBlockingQueue<Request>>();
 
-    private static RequestQueue queue = new RequestQueue();
+    /**
+     * 单例有很多种方式去实现：我采取绝对线程安全的一种方式
+     *
+     * 静态内部类的方式，去初始化单例
+     *
+     * @author Administrator
+     *
+     */
+    private static class Singleton {
 
-    private RequestQueue() {
+        private static RequestQueue instance;
+
+        static {
+            instance = new RequestQueue();
+        }
+
+        public static RequestQueue getInstance() {
+            return instance;
+        }
 
     }
 
+    /**
+     * jvm的机制去保证多线程并发安全
+     *
+     * 内部类的初始化，一定只会发生一次，不管多少个线程并发去初始化
+     *
+     * @return
+     */
     public static RequestQueue getInstance() {
-        return queue;
+        return Singleton.getInstance();
     }
 
     /**
      * 添加一个内存队列
-     *
      * @param queue
      */
     public void addQueue(ArrayBlockingQueue<Request> queue) {
         this.queues.add(queue);
+    }
+
+    /**
+     * 获取内存队列的数量
+     * @return
+     */
+    public int queueSize() {
+        return queues.size();
+    }
+
+    /**
+     * 获取内存队列
+     * @param index
+     * @return
+     */
+    public ArrayBlockingQueue<Request> getQueue(int index) {
+        return queues.get(index);
     }
 }

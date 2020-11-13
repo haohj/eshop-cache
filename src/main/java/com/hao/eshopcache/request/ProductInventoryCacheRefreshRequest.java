@@ -16,7 +16,8 @@ public class ProductInventoryCacheRefreshRequest implements Request {
      */
     private ProductInventoryService productInventoryService;
 
-    public ProductInventoryCacheRefreshRequest(Integer productId, ProductInventoryService productInventoryService) {
+    public ProductInventoryCacheRefreshRequest(Integer productId,
+                                               ProductInventoryService productInventoryService) {
         this.productId = productId;
         this.productInventoryService = productInventoryService;
     }
@@ -27,5 +28,10 @@ public class ProductInventoryCacheRefreshRequest implements Request {
         ProductInventory productInventory = productInventoryService.findProductInventory(productId);
         // 将最新的商品库存数量，刷新到redis缓存中去
         productInventoryService.setProductInventoryCache(productInventory);
+    }
+
+    @Override
+    public Integer getProductId() {
+        return productId;
     }
 }
