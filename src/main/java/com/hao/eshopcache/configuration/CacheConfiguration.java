@@ -19,12 +19,18 @@ import java.util.Set;
 @Configuration
 public class CacheConfiguration {
 
+    /**
+     * 注入数据源配置
+     */
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return new DataSource();
     }
 
+    /**
+     * 事务管理
+     */
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
@@ -32,7 +38,7 @@ public class CacheConfiguration {
 
     @Bean
     public JedisCluster JedisClusterFactory() {
-        Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
+        Set<HostAndPort> jedisClusterNodes = new HashSet<>();
         jedisClusterNodes.add(new HostAndPort("192.168.140.113", 7005));
         jedisClusterNodes.add(new HostAndPort("192.168.140.113", 7006));
         jedisClusterNodes.add(new HostAndPort("192.168.140.112", 7004));
